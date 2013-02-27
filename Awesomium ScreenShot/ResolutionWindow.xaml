@@ -1,0 +1,48 @@
+﻿<telerik:RadWindow
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+		xmlns:awesomiumScreenShotClass="clr-namespace:Awesomium_ScreenShot.Class" x:Class="Awesomium_ScreenShot.ResolutionWindow"
+    
+		Header="ResolutionWindow" Width="400" CanMove="False" ResizeMode="NoResize">
+	<telerik:RadWindow.DataContext>
+		<awesomiumScreenShotClass:OutputTemplate/>
+	</telerik:RadWindow.DataContext>
+    <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition/>  	
+			<RowDefinition Height="50"/>
+		</Grid.RowDefinitions>
+		
+        <telerik:RadPropertyGrid AutoGeneratePropertyDefinitions="False" Item="{Binding}" DescriptionPanelVisibility="Collapsed" >
+            <telerik:RadPropertyGrid.PropertyDefinitions>
+                
+                <telerik:PropertyDefinition Binding="{Binding Width}" Description="Output Browser Width" DisplayName="Output Width" OrderIndex="3">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <telerik:RadNumericUpDown CustomUnit="px" IsInteger="True" Value="{Binding Width, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Binding="{Binding Height}" Description="Output Browser Height" DisplayName="Output Height" OrderIndex="2">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <telerik:RadNumericUpDown CustomUnit="px" IsInteger="True" Value="{Binding Height, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Binding="{Binding TemplateName}" Description="Simple Name to Describe template." DisplayName="Template Name" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding TemplateName, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+            </telerik:RadPropertyGrid.PropertyDefinitions>
+        </telerik:RadPropertyGrid>
+		<Grid Grid.Row="1">
+			<telerik:RadButton Content="Save" HorizontalAlignment="Right" MinWidth="60" Margin="8" Click="ButtonSave_OnClick"/>  	
+		</Grid>
+    </Grid>
+	
+</telerik:RadWindow>

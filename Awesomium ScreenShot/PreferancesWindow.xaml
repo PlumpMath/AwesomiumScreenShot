@@ -1,0 +1,64 @@
+﻿<telerik:RadWindow
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+		xmlns:Awesomium_ScreenShot_Class="clr-namespace:Awesomium_ScreenShot.Class" x:Name="radWindow" x:Class="Awesomium_ScreenShot.PreferancesWindow"
+		Header="PreferancesWindow" Width="445.5" WindowStartupLocation="CenterOwner" DataContext="{Binding Settings, ElementName=radWindow}" CanMove="False" ResizeMode="NoResize" >
+    <Grid>
+    	
+    	<Grid.RowDefinitions>
+    		<RowDefinition/>  	
+			<RowDefinition Height="50"/>
+		</Grid.RowDefinitions>
+        
+        
+    	<telerik:RadPropertyGrid Item="{Binding}"  AutoGeneratePropertyDefinitions="False" Grid.ColumnSpan="2" >
+    		<telerik:RadPropertyGrid.PropertyDefinitions>
+		  <telerik:PropertyDefinition Binding="{Binding BrowserWidth}" Description="Output Browser Width" DisplayName="Output Width">
+		   <telerik:PropertyDefinition.EditorTemplate>
+		    <DataTemplate>
+		     <telerik:RadNumericUpDown CustomUnit="px" IsInteger="True" Value="{Binding BrowserWidth, Mode=TwoWay}" />
+		    </DataTemplate>
+		   </telerik:PropertyDefinition.EditorTemplate>
+		  </telerik:PropertyDefinition>
+		  <telerik:PropertyDefinition Binding="{Binding BrowserHeight}" Description="Output Browser Height" DisplayName="Output Height">
+		   <telerik:PropertyDefinition.EditorTemplate>
+		    <DataTemplate>
+		     <telerik:RadNumericUpDown CustomUnit="px" IsInteger="True" Value="{Binding BrowserHeight, Mode=TwoWay}" />
+		    </DataTemplate>
+		   </telerik:PropertyDefinition.EditorTemplate>
+		  </telerik:PropertyDefinition>
+		  
+		  <telerik:PropertyDefinition Binding="{Binding AnimationDelay}" Description="Render time delay to allow for animations." DisplayName="Screen Shot Delay">
+		   <telerik:PropertyDefinition.EditorTemplate>
+		    <DataTemplate>
+		     <telerik:RadNumericUpDown CustomUnit="ms" IsInteger="True" Value="{Binding AnimationDelay, Mode=TwoWay}" />
+		    </DataTemplate>
+		   </telerik:PropertyDefinition.EditorTemplate>
+		  </telerik:PropertyDefinition>
+		  
+		  <telerik:PropertyDefinition Binding="{Binding AnimatedClass}" Description="Class applied when animation is on." DisplayName="Animated Class">
+		   <telerik:PropertyDefinition.EditorTemplate>
+		    <DataTemplate>
+		     <TextBox Text="{Binding AnimatedClass, Mode=TwoWay}" />
+		    </DataTemplate>
+		   </telerik:PropertyDefinition.EditorTemplate>
+		  </telerik:PropertyDefinition>		  
+		  
+		  <telerik:PropertyDefinition Binding="{Binding AnimationClass}" Description="Class applied when animation is off." DisplayName="Animation Class">
+		   <telerik:PropertyDefinition.EditorTemplate>
+		    <DataTemplate>
+		     <TextBox Text="{Binding AnimationClass, Mode=TwoWay}" />
+		    </DataTemplate>
+		   </telerik:PropertyDefinition.EditorTemplate>
+		  </telerik:PropertyDefinition>
+		  
+		 </telerik:RadPropertyGrid.PropertyDefinitions>  	
+		</telerik:RadPropertyGrid>
+    	<Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <telerik:RadButton Content="OK" HorizontalAlignment="Right" MinWidth="60" Margin="8" Click="ButtonConfirm_OnClick"/>  	
+		</Grid>
+        
+        
+    </Grid>
+</telerik:RadWindow>
