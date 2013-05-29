@@ -6,8 +6,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using Awesomium.Core;
+using Awesomium.Windows.Controls;
 using Awesomium_ScreenShot.Class;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using Telerik.Windows.Controls;
 
 namespace Awesomium_ScreenShot
 {
@@ -16,16 +18,16 @@ namespace Awesomium_ScreenShot
     /// </summary>
     public partial class MainWindow
     {
-        private WebView _browser;     
+        private WebControl _browser;     
        
         private string _savePath;
         private bool _isBusy;
-		private Preferances _settings = new Preferances();				
+		private Preferences _settings = new Preferences();				
         private ObservableCollection<string> _fileNames = new ObservableCollection<string>();        
 		
         public event PropertyChangedEventHandler PropertyChanged;
 		
-		public Preferances Settings
+		public Preferences Settings
         {
             get
             {
@@ -79,12 +81,13 @@ namespace Awesomium_ScreenShot
 
         public MainWindow()
         {
+            StyleManager.ApplicationTheme = new Windows7Theme();
             InitializeComponent();           
         }
 
-        private void MenuPreferances_OnClick(object sender, RoutedEventArgs e)
+        private void MenuPreferences_OnClick(object sender, RoutedEventArgs e)
         {
-            var pw = new PreferancesWindow
+            var pw = new PreferencesWindow
                 {
                     Settings = Settings,
                     Owner = this,
@@ -94,7 +97,7 @@ namespace Awesomium_ScreenShot
 
         }
 
-        private void MenuOpen_OnClick(object sender, RoutedEventArgs e)
+        /*private void MenuOpen_OnClick(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog
                 {
@@ -108,27 +111,16 @@ namespace Awesomium_ScreenShot
                 FileNames.Add(fileName);
             }
             Settings.CanScreenShot = true;
-        }
+        }*/
         
 
         private void MenuClose_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void ScreenShot_OnClick(object sender, RoutedEventArgs e)
-        {
-            var a = new FolderBrowserDialog();
-            var result = a.ShowDialog();            
-            if (result != System.Windows.Forms.DialogResult.OK) return;
-            Settings.CanScreenShot = false;
-            SavePath = a.SelectedPath;
-            _browser = WebCore.CreateWebView(Settings.BrowserHeight, Settings.BrowserWidth);            
-            ScreenShot();
-        }
+        }       
 
         private void ScreenShot()
-        {
+        {            
             _browser.LoadURL(FileNames[0]);
             _browser.LoadCompleted += FileLoaded;
         }
@@ -178,13 +170,9 @@ namespace Awesomium_ScreenShot
             FileNames.Remove(deleteme);
         }
 
-        private void ButtonReset_OnClick(object sender, RoutedEventArgs e)
-        {
-            FileNames.Clear();            
-            Settings.CanScreenShot = false;
-        }
+       
 
-        private void MenuOpenFolder_OnClick(object sender, RoutedEventArgs e)
+       /* private void MenuOpenFolder_OnClick(object sender, RoutedEventArgs e)
         {
             var fb = new FolderBrowserDialog {ShowNewFolderButton = false};
             var result = fb.ShowDialog();
@@ -196,6 +184,66 @@ namespace Awesomium_ScreenShot
                 FileNames.Add(file);
             }
             Settings.CanScreenShot = true;
+        }        */
+
+        private void ScreenShotButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	var a = new FolderBrowserDialog();
+            var result = a.ShowDialog();            
+            if (result != System.Windows.Forms.DialogResult.OK) return;
+            Settings.CanScreenShot = false;
+            SavePath = a.SelectedPath;
+            _browser = WebCore.CreateWebView(Settings.BrowserHeight, Settings.BrowserWidth);            
+            ScreenShot();
+        }       
+
+        private void ResetButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	 FileNames.Clear();            
+            Settings.CanScreenShot = false;
+        }
+
+        private void FileOpen_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Web Pages (*.htm, *.html)|*.htm;*.html|All files (*.*)|*.*"
+            };
+            var file = (bool)dlg.ShowDialog();
+            if (!file) return;
+            foreach (var fileName in dlg.FileNames.Where(fileName => FileNames.IndexOf(fileName) == -1))
+            {
+                FileNames.Add(fileName);
+            }
+            Settings.CanScreenShot = true;
+        }
+
+        private void FolderOpen_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var fb = new FolderBrowserDialog { ShowNewFolderButton = false };
+            var result = fb.ShowDialog();
+            if (result != System.Windows.Forms.DialogResult.OK) return;
+            var files = Directory.GetFiles(fb.SelectedPath, "*.htm*");
+            if (files.Length <= 0) return;
+            foreach (var file in files.Where(file => FileNames.IndexOf(file) == -1))
+            {
+                FileNames.Add(file);
+            }
+            Settings.CanScreenShot = true;
+        }
+
+        private void RadRibbonButton_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.AddNew_Click(sender,e);
+        }
+
+        private void PreferencesWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var prefWindow = new PreferencesWindow();
+            prefWindow.WindowStartupLocation=WindowStartupLocation.CenterOwner;            
+
+            prefWindow.ShowDialog();            
         }
     }
 }

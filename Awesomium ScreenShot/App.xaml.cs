@@ -12,5 +12,20 @@ namespace Awesomium_ScreenShot
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            if ( e.Args.Length>0)
+            {
+                /* do stuff without a GUI */
+            }
+            else
+            {
+                new MainWindow().ShowDialog();
+            }
+            this.Shutdown();
+        }
+
+        }
     }
-}

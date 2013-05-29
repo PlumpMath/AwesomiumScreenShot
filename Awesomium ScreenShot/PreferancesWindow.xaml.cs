@@ -17,18 +17,18 @@ using Telerik.Windows.Controls;
 namespace Awesomium_ScreenShot
 {
     /// <summary>
-    /// Interaction logic for PreferancesWindow.xaml
+    /// Interaction logic for PreferencesWindow.xaml
     /// </summary>
-    public partial class PreferancesWindow : INotifyPropertyChanged
+    public partial class PreferencesWindow : INotifyPropertyChanged
     {
-        private Preferances _settings = new Preferances();
-        public Preferances Settings
+        private Preferences _settings = new Preferences();
+        public Preferences Settings
         {
             get { return _settings; }
             set { _settings = value;
             OnPropertyChanged("Settings");}
         }
-        public PreferancesWindow()
+        public PreferencesWindow()
         {
             InitializeComponent();
         }

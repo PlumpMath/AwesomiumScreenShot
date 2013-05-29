@@ -7,7 +7,7 @@ using Telerik.Windows.Controls;
 
 namespace Awesomium_ScreenShot.Class
 {
-    public class Preferances : INotifyPropertyChanged
+    public class Preferences : INotifyPropertyChanged
     {
         private int _browserHeight = 1024;
         private int _browserWidth = 768;
@@ -95,24 +95,23 @@ namespace Awesomium_ScreenShot.Class
             }
         }
 
-        private ObservableCollection<RadMenuItem> _menuItemList;
-        public ObservableCollection<RadMenuItem> MenuItemsList
+        private RadContextMenu _menuItemList;
+        public RadContextMenu MenuItemsList
         {
             get 
             {
                 if (_menuItemList == null)
                 {
-                    var temp = new ObservableCollection<RadMenuItem>();
+                    var container = new RadContextMenu();
+                    
+                    
                     foreach (var item in OutputTemplates.Select(outputTemplate => new RadMenuItem { IsCheckable = true, Header = string.Format("{0} - {1} x {2}", outputTemplate.TemplateName, outputTemplate.Height, outputTemplate.Width), Name = outputTemplate.TemplateName, Tag = 1,StaysOpenOnClick = true}))
                     {
                         item.Click += item_Click;
-                        temp.Add(item);
+                        container.Items.Add(item);
                     }
-                    temp.Add(new RadMenuItem { IsSeparator = true });
-                    var addNew = new RadMenuItem { Header = "New" };
-                    addNew.Click += addNew_Click;
-                    temp.Add(addNew);
-                    return temp;
+                                        
+                    return container;
                     
                 }
                 return _menuItemList;
@@ -124,16 +123,17 @@ namespace Awesomium_ScreenShot.Class
             }
         }
 
-        void addNew_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        public void AddNew_Click(object sender, RoutedEventArgs e)
         {
             var rw = new ResolutionWindow
-                {
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    Owner = Application.Current.MainWindow
-                };
-            rw.Closed+=rw_Closed;
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = Application.Current.MainWindow
+            };
+            rw.Closed += rw_Closed;
             rw.ShowDialog();
-        }        
+        }
+        
 
         void rw_Closed(object sender, WindowClosedEventArgs e)
         {
@@ -142,9 +142,8 @@ namespace Awesomium_ScreenShot.Class
             if(temp.DialogResult==null || temp.DialogResult == false) return;            
             var a = temp.DataContext as OutputTemplate;
             OutputTemplates.Add(a);            
-            MenuItemsList.Add(new RadMenuItem {Name = a.TemplateName, Tag = 1, IsCheckable = true,StaysOpenOnClick = true});
-            OnPropertyChanged("MenuItemsList");
-            
+            MenuItemsList.Items.Add(new RadMenuItem {Name = a.TemplateName, Tag = 1, IsCheckable = true,StaysOpenOnClick = true});
+            OnPropertyChanged("MenuItemsList");            
         }
 
         void item_Click(object sender, Telerik.Windows.RadRoutedEventArgs e)

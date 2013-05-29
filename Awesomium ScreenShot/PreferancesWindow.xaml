@@ -2,8 +2,8 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-		xmlns:Awesomium_ScreenShot_Class="clr-namespace:Awesomium_ScreenShot.Class" x:Name="radWindow" x:Class="Awesomium_ScreenShot.PreferancesWindow"
-		Header="PreferancesWindow" Width="445.5" WindowStartupLocation="CenterOwner" DataContext="{Binding Settings, ElementName=radWindow}" CanMove="False" ResizeMode="NoResize" >
+		xmlns:Awesomium_ScreenShot_Class="clr-namespace:Awesomium_ScreenShot.Class" x:Name="radWindow" x:Class="Awesomium_ScreenShot.PreferencesWindow"
+		Header="PreferencesWindow" Width="445.5" WindowStartupLocation="CenterOwner" DataContext="{Binding Settings, ElementName=radWindow}" ResizeMode="NoResize" >
     <Grid>
     	
     	<Grid.RowDefinitions>
